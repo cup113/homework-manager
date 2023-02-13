@@ -60,6 +60,7 @@ function pull_from_source() {
   }).then(text => {
     homework.try_compile(text);
     homeworkContent.value = text;
+    homework.store_hmo();
   }).catch(err => {
     Message.error(`下载失败: ${err}`, {
       closable: true,
