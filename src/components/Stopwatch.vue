@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import Message from 'vue-m-message';
 
+import { ItemStatus } from '@/hs/hs-manage';
 import useTimeStore from '@/store/time';
 import useHomeworkStore from '@/store/homework';
 
@@ -51,8 +53,15 @@ function update_selected(progress: number) {
     return;
   selectedItem.minutesSpent += msTotal.value / 1000 / 60;
   homework.store_hmo();
-  if (progress >= 0 && progress <= 1)
+  if (progress >= 0 && progress <= 1) {
     selectedItem.progress = progress;
+    if (progress === 1)
+      homework.set_item_status(ItemStatus.Done, selectedItem.id);
+    else
+      homework.set_item_status(ItemStatus.Underway, selectedItem.id);
+  } else {
+    Message.error("进度值无效", { duration: 5000 });
+  }
 }
 
 function complete() {

@@ -13,32 +13,8 @@ const emit = defineEmits<{
 const homework = useHomeworkStore();
 
 function change_status(ev: Event) {
-  const val = (ev.target as HTMLInputElement).value;
-  switch (val) {
-    case ItemStatus.NotStarted:
-      props.item.minutesSpent = 0;
-      props.item.progress = 0;
-      break;
-    case ItemStatus.Underway:
-      break;
-    case ItemStatus.Done:
-      props.item.progress = 1;
-      break;
-    case ItemStatus.DoneEarlier:
-    case ItemStatus.NotMine:
-      props.item.minutesSpent = 0;
-      props.item.minutesEstimated = 0;
-      props.item.progress = 1;
-      break;
-    case ItemStatus.Delayed:
-      props.item.minutesSpent = 0;
-      props.item.minutesEstimated = 0;
-      props.item.progress = 0;
-      break;
-    default:
-      return;
-  }
-  props.item.status = val;
+  const value = (ev.target as HTMLInputElement).value;
+  homework.set_item_status(value, props.item.id);
 }
 
 function change_estimated(ev: Event) {
@@ -85,13 +61,15 @@ function change_progress(ev: Event) {
       <span>
         <span>预估时间(分钟)</span>
         <input
-          type="number" min="0" :value="item.minutesEstimated" @change="change_estimated"
+          type="number" min="0" step="any"
+          :value="item.minutesEstimated" @input="change_estimated"
           class="border-2 w-20 pl-4">
       </span>
       <span class="mx-4">
         <span>已花费时间(分钟)</span>
         <input
-          type="number" min="0" :value="item.minutesSpent" @change="change_spent"
+          type="number" min="0" step="any"
+          :value="item.minutesSpent" @input="change_spent"
           class="border-2 w-20 pl-4">
       </span>
       <span>
@@ -104,7 +82,3 @@ function change_progress(ev: Event) {
     <div><button type="submit" class="btn bg-green-500">提交</button></div>
   </form>
 </template>
-
-<style lang="scss">
-
-</style>

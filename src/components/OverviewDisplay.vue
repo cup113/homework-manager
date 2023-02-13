@@ -33,14 +33,18 @@ const
 
 function change_back_home(ev: Event) {
   let val = new Date((ev.target as HTMLInputElement).value);
-  if (!isNaN(val.getFullYear()))
+  if (!isNaN(val.getFullYear())) {
     homework.hmo.timeBackHome = new Date(val);
+    homework.store_hmo();
+  }
 }
 
 function change_buffer(ev: Event) {
   let val = (ev.target as HTMLInputElement).valueAsNumber;
-  if (val >= 0)
+  if (val >= 0) {
     homework.hmo.minutesBuffer = val;
+    homework.store_hmo();
+  }
 }
 
 </script>
@@ -60,8 +64,8 @@ function change_buffer(ev: Event) {
       <span>缓冲时间</span>
       <span v-if="!bufferOnEdit" @click="bufferOnEdit = true;">{{ minutesBufferDisplay }}</span>
       <span v-else>
-        <input type="number" min="0" step="1" class="border-2 pl-4 w-20"
-          :value="minutesBuffer" @change="change_buffer"
+        <input type="number" min="0" step="1" class="border-2 pl-4 w-28"
+          :value="minutesBuffer" @input="change_buffer"
           @focusout="bufferOnEdit = false;"
           @keypress.enter="change_buffer($event); bufferOnEdit = false;">
         <span>分钟</span>

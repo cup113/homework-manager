@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import Message from 'vue-m-message';
 
-import { default_hm_object, hm_compile, hm_deserialize, hm_serialize } from '@/hs/hs-manage';
+import { default_hm_object, hm_compile, hm_deserialize, hm_serialize, ItemStatus } from '@/hs/hs-manage';
 import type { HmItem, StoredHmObject } from '@/hs/hs-manage';
 
 export default defineStore('homework', () => {
@@ -91,6 +91,38 @@ export default defineStore('homework', () => {
     return itemsMap.value.get(selectedId.value);
   }
 
+  function set_item_status(value: string, id: string) {
+    let item = itemsMap.value.get(id);
+    if (item === undefined)
+      return;
+    switch (value) {
+      case ItemStatus.NotStarted:
+        item.minutesSpent = 0;
+        item.progress = 0;
+        break;
+      case ItemStatus.Underway:
+        break;
+      case ItemStatus.Done:
+        item.progress = 1;
+        break;
+      case ItemStatus.DoneEarlier:
+      case ItemStatus.NotMine:
+        item.minutesSpent = 0;
+        item.minutesEstimated = 0;
+        item.progress = 1;
+        break;
+      case ItemStatus.Delayed:
+        item.minutesSpent = 0;
+        item.minutesEstimated = 0;
+        item.progress = 0;
+        break;
+      default:
+        return;
+    }
+    item.status = value;
+    store_hmo();
+  }
+
   (() => {
     const storedHmo = localStorage.getItem(HMO_STORE_KEY);
     if (storedHmo != null)
@@ -111,5 +143,6 @@ export default defineStore('homework', () => {
     try_deserialize_hmo,
     store_hmo,
     select_item,
+    set_item_status,
   };
 });
