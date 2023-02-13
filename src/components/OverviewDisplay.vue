@@ -32,9 +32,9 @@ const
   bufferOnEdit = ref(false);
 
 function change_back_home(ev: Event) {
-  let val = (ev.target as HTMLInputElement).valueAsDate;
-  if (val !== null)
-    homework.hmo.timeBackHome = val;
+  let val = new Date((ev.target as HTMLInputElement).value);
+  if (!isNaN(val.getFullYear()))
+    homework.hmo.timeBackHome = new Date(val);
 }
 
 function change_buffer(ev: Event) {
@@ -52,7 +52,8 @@ function change_buffer(ev: Event) {
       <span v-if="!backHomeOnEdit" @click="backHomeOnEdit = true;">{{ timeBackHomeDisplay }}</span>
       <span v-else>
         <input type="datetime-local" @change="change_back_home"
-          @focusout="backHomeOnEdit = false;" @keypress.enter="backHomeOnEdit = false;">
+          @focusout="backHomeOnEdit = false;"
+          @keypress.enter="change_back_home($event); backHomeOnEdit = false;">
       </span>
     </div>
     <div>
@@ -61,7 +62,8 @@ function change_buffer(ev: Event) {
       <span v-else>
         <input type="number" min="0" step="1" class="border-2 pl-4 w-20"
           :value="minutesBuffer" @change="change_buffer"
-          @focusout="bufferOnEdit = false;" @keypress.enter="bufferOnEdit = false;">
+          @focusout="bufferOnEdit = false;"
+          @keypress.enter="change_buffer($event); bufferOnEdit = false;">
         <span>分钟</span>
       </span>
     </div>
