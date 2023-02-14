@@ -36,16 +36,16 @@ export interface HmObject extends HcObject {
   minutesBuffer: number,
 }
 
-export function hm_compile(content: string, _prevObj?: HmObject): HmObject {
+export function hm_compile(content: string, prevObj?: HmObject): HmObject {
   const hcObj = hc_compile(content);
   let prevMap: Map<string, Map<string, HmItem>> | undefined;
-  if (_prevObj === undefined) {
+  if (prevObj === undefined) {
     prevMap = undefined;
   } else {
-    if (_prevObj.meta.id !== hcObj.meta.id || _prevObj.meta.date !== hcObj.meta.date) {
+    if (prevObj.meta.id !== hcObj.meta.id || prevObj.meta.date !== hcObj.meta.date) {
       prevMap = undefined;
     } else {
-      prevMap = new Map(_prevObj.subjects.map(subject => [
+      prevMap = new Map(prevObj.subjects.map(subject => [
         subject.name,
         new Map(subject.items.map(item => [item.id, item]))
       ]));
@@ -64,13 +64,18 @@ export function hm_compile(content: string, _prevObj?: HmObject): HmObject {
       } satisfies HmItem),
     };
   });
-  return {
+  let ans = {
     ...default_hm_object(),
     raw: content,
     meta: hcObj.meta,
     notes: hcObj.notes,
     subjects,
   }
+  if (prevObj !== undefined) {
+    ans.minutesBuffer = prevObj.minutesBuffer;
+    ans.timeBackHome = prevObj.timeBackHome;
+  }
+  return ans;
 }
 
 export function default_hm_object(): HmObject {

@@ -78,7 +78,7 @@ export function hc_compile(_content: string): HcObject {
           return `<img src="${el.attributes.src}" alt="${el.attributes.alt}"${widthStr}${heightStr}>`;
         }
         case 'note':
-          return `<sup class="hs-inline-note">[${el.attributes.v}]</sup>`;
+          return `<sup class="hs-inline-note">[${el.attributes.ref}]</sup>`;
       }
     }).join("");
   }

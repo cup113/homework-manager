@@ -23,8 +23,17 @@ export default defineStore('homework', () => {
         minutesDone = subject.items.reduce((pre, cur) => {
           return pre + cur.minutesEstimated * cur.progress;
         }, 0),
-        minutesEstimated = subject.items.reduce((pre, cur) => pre + cur.minutesEstimated, 0),
+        minutesEstimated = subject.items.reduce((pre, cur) => pre + cur.minutesEstimated, 0);
+      let progress: number;
+      if (minutesEstimated !== 0)
         progress = minutesDone / minutesEstimated;
+      else
+        progress = subject.items.reduce((pre, cur) => {
+          let isFinished = [
+            ItemStatus.Done, ItemStatus.NotMine, ItemStatus.DoneEarlier
+          ].includes(cur.status);
+          return pre + (isFinished ? 1 : 0);
+        }, 0) / subject.items.length;
       return {
         ...subject,
         minutesSpent,

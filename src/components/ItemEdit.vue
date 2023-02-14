@@ -47,7 +47,7 @@ function change_progress(ev: Event) {
   <form @submit.prevent="emit('finish')">
     <div>
       <span>状态</span>
-      <select @change="change_status" class="border-2">
+      <select @change="change_status" class="border-2" :value="item.status">
         <option :value="ItemStatus.NotStarted">未开始</option>
         <option :value="ItemStatus.Underway">进行中</option>
         <option :value="ItemStatus.Done">已完成</option>
