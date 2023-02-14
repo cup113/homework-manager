@@ -28,6 +28,8 @@ const
     return 0;
   }),
   efficiencyDisplay = computed(() => (efficiency.value * 100).toFixed(2) + '%'),
+  homeworkProgressDisplay = computed(() => `${homework.totalDone.toFixed(0)}(${homework.totalSpent.toFixed(0)})/${homework.totalEstimation.toFixed(0)}`),
+  homeworkProgressRatio = computed(() => homework.totalDone / homework.totalEstimation),
   backHomeOnEdit = ref(false),
   bufferOnEdit = ref(false);
 
@@ -74,6 +76,12 @@ function change_buffer(ev: Event) {
     <div>
       <span>有效时间</span>
       <span>{{ minutesValidDisplay }}</span>
+    </div>
+    <div>
+      <span>作业进度</span>
+      <span class="progress-bg" :style="{ '--ratio': homeworkProgressRatio }">
+        {{ homeworkProgressDisplay }}
+      </span>
     </div>
     <div>
       <span>作业效率</span>

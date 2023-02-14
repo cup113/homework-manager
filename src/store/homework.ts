@@ -51,6 +51,7 @@ export default defineStore('homework', () => {
       return mp;
     }),
     totalDone = computed(() => subjects.value.reduce((pre, cur) => pre + cur.minutesDone, 0)),
+    totalSpent = computed(() => subjects.value.reduce((pre, cur) => pre + cur.minutesSpent, 0)),
     totalEstimation = computed(
       () => subjects.value.reduce((pre, cur) => pre + cur.minutesEstimated, 0)
     ),
@@ -145,6 +146,7 @@ export default defineStore('homework', () => {
     subjects,
     totalEstimation,
     totalDone,
+    totalSpent,
     selectedId,
     get_selected_item,
     try_compile,
