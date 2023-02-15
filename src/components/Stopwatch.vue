@@ -83,7 +83,7 @@ function abort() {
 
 <template>
   <div
-    class="stopwatch w-full h-screen bg-green-800 text-center flex items-center justify-center flex-col">
+    class="stopwatch w-full h-screen bg-green-900 text-center flex items-center justify-center flex-col">
     <div class="text-white text-[20vw] font-bold">{{ msDisplay }}</div>
     <div class="text-lg">
       <button type="button" class="btn"
