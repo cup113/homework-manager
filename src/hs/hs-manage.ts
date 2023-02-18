@@ -81,7 +81,9 @@ export function hm_compile(content: string, prevObj?: HmObject): HmObject {
     notes: hcObj.notes,
     subjects,
   }
-  if (prevObj !== undefined) {
+  if (prevMap !== undefined) {
+    if (prevObj === undefined)
+      throw Error("PrevObj should exist when prevMap exists.");
     ans.minutesBuffer = prevObj.minutesBuffer;
     ans.timeBackHome = prevObj.timeBackHome;
   }

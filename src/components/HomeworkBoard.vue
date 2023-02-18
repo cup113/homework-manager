@@ -123,7 +123,7 @@ function homework_on_upload(ev: Event) {
         </div>
         <ItemDisplay v-for="item in subject.items" :item="item"></ItemDisplay>
       </div>
-      <div>
+      <div v-show="homework.hmo.notes.length > 0">
         <div class="text-2xl">Notes</div>
         <div v-for="(note, i) in homework.hmo.notes" :key="i" class="ml-8">
           <span>[{{ i + 1 }}]&nbsp;</span>
