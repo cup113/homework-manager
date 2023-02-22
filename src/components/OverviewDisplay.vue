@@ -28,8 +28,8 @@ const
     return 0;
   }),
   efficiencyDisplay = computed(() => (efficiency.value * 100).toFixed(2) + '%'),
-  homeworkProgressDisplay = computed(() => `${homework.totalDone.toFixed(0)}(${homework.totalSpent.toFixed(0)})/${homework.totalEstimation.toFixed(0)}`),
-  homeworkProgressRatio = computed(() => homework.totalDone / homework.totalEstimation),
+  homeworkProgressRatio = computed(() => homework.totalEstimation === 0 ? 0 : homework.totalDone / homework.totalEstimation),
+  homeworkProgressDisplay = computed(() => `${homework.totalDone.toFixed(0)}(${homework.totalSpent.toFixed(0)})/${homework.totalEstimation.toFixed(0)} [${(homeworkProgressRatio.value * 100).toFixed(0)}%]`),
   backHomeOnEdit = ref(false),
   bufferOnEdit = ref(false);
 

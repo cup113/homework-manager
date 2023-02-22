@@ -63,7 +63,7 @@ export function hc_compile(_content: string): HcObject {
         case 'bg': {
           let bgColor: string;
           if (el.attributes.color === undefined)
-            bgColor = meta.modifies[parseInt(el.attributes.v)].color;
+            bgColor = meta.modifies[parseInt(el.attributes.v) - 1].color;
           else
             bgColor = el.attributes.color;
           return `<span style="background-color: ${bgColor};">${hc_parse_inline(el.children)}</span>`;
