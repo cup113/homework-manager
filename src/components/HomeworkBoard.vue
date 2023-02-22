@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import Message from 'vue-m-message';
+import dayjs from 'dayjs';
 import JsFileDownloader from 'js-file-downloader';
 
 import useHomeworkStore from '@/store/homework';
@@ -27,9 +28,7 @@ function export_homework() {
     content = JSON.stringify(serializedHmo, undefined, 4),
     url = URL.createObjectURL(new Blob([content])),
     d = new Date(),
-    formattedDate = d.getFullYear().toString()
-      + d.getMonth().toString().padStart(2, '0')
-      + d.getDate().toString().padStart(2, '0'),
+    formattedDate = dayjs(d).format("YYYYMMDD-HHmmss"),
     filename = `homework-${formattedDate}.json`;
   new JsFileDownloader({
     url,
